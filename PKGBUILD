@@ -3,7 +3,7 @@ pkgname=dwm
 pkgver=6.2
 pkgrel=1
 pkgdesc="h3xo's Dynamin window manager for X"
-url=https://github.com/LukeSmithxyz/dwm
+url=https://gitlab.com/h3xOo/h3xo-dwm
 arch=('i686' 'x86_64')
 license=('GPL3')
 makedepends=('git')
@@ -15,7 +15,7 @@ optdepends=(
 	'st: terminal emulator')
 provides=($pkgname)
 conflicts=($pkgname)
-source=(git+https://gitlab.com/h3xo-dwm)
+source=(git+https://gitlab.com/h3xOo/h3xo-dwm)
 sha256sums=('SKIP')
 
 pkgver() {
