@@ -1,5 +1,8 @@
 # h3xo's fork of [Luke's dwm](https://github.com/LukeSmithxyz/dwm)
 
+## Requirements
+- [dwmblocks](https://gitlab.com/h3xOo/h3xo-dwmblocks)
+
 ## Manual installation
 
 ```
