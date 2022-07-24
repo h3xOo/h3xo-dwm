@@ -31,6 +31,6 @@ install: all
 	chmod 755 ${DESTDIR}${PREFIX}/bin/dwm
 
 uninstall:
-	rm -f ${DESTDIR}${PREFIX}/bin/dwm\
+	rm -f ${DESTDIR}${PREFIX}/bin/dwm
 
 .PHONY: all options clean dist install uninstall
