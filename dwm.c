@@ -1593,9 +1593,12 @@ runAutostart(void) {
 	system("killall -q dwmblocks; dwmblocks &");
 	system("$HOME/.fehbg &");
 	system("xss-lock slock &");
-	system("xset s off &");
-	/* system("xset s on &"); */
-	/* system("xset s 900 &"); */ //set screensaver for 900 seconds
+	/* system("xset s off &"); */
+	system("xset s on &"); 
+	system("xset s 900 &"); //set screensaver for 900 seconds
+    /* https://wiki.archlinux.org/title/Session_lock#DPMS */
+    system("xset +dpms");
+    system("xset dpms 900 900 900"); //https://wiki.archlinux.org/title/Display_Power_Management_Signaling
 }
 
 void
