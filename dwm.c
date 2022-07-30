@@ -1595,10 +1595,10 @@ runAutostart(void) {
 	system("xss-lock slock &");
 	/* system("xset s off &"); */
 	system("xset s on &"); 
-	system("xset s 1200 1200 &"); // set screensaver for 1200 seconds
+	system("xset s 750 750 &"); // set screensaver for 750 seconds
     /* https://wiki.archlinux.org/title/Session_lock#DPMS */
     system("xset +dpms &");
-    system("xset dpms 1200 1200 1200 &"); 
+    system("xset dpms 750 750 750 &"); 
     /* https://wiki.archlinux.org/title/Display_Power_Management_Signaling */
 }
 
