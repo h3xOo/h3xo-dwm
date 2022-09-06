@@ -21,7 +21,7 @@ static char normbordercolor[]       = "#444444";
 static char normfgcolor[]           = "#bbbbbb";
 static char selfgcolor[]            = "#eeeeee";
 static char selbordercolor[]        = "#282C34";
-static char selbgcolor[]            = "#998579"; //#AA758C - ruszofy, #998579 - bronzofy
+static char selbgcolor[]            = "#8058b9"; //#AA758C - ruszofy, #998579 - bronzofy, #BD93F9 - dracula purple, #FF79C6 - dracula pink, #50FA7B - dracula green, #104A8E - dracula blue
 static char *colors[][3] = {
        /*               fg           bg           border   */
        [SchemeNorm] = { normfgcolor, normbgcolor, normbordercolor },
@@ -85,7 +85,7 @@ static const Layout layouts[] = {
 };
 
 /* key definitions */
-#define MODKEY Mod4Mask
+#define MODKEY Mod4Mask /* super key (windows key) */
 #define TAGKEYS(KEY,TAG) \
 	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
