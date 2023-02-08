@@ -1,6 +1,9 @@
 #ifndef DRW_H__
 #define DRW_H__
 
+#include <X11/Xlib.h>
+#include <X11/Xft/Xft.h>
+
 /* See LICENSE file for copyright and license details. */
 
 typedef struct {
