@@ -1,6 +1,8 @@
 #ifndef CONFIG_H__
 #define CONFIG_H__
 
+#include "dwm.h"
+
 #include <X11/Xlib.h>
 
 /* See LICENSE file for copyright and license details. */

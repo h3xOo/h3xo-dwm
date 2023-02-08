@@ -3,6 +3,10 @@
  * @param: "arg->i" stores the number of tags to shift right (positive value)
  *          or left (negative value)
  */
+
+#include "dwm.h"
+#include "util.h"
+
 void
 shiftview(const Arg *arg)
 {
