@@ -87,6 +87,7 @@ void drw_resize(Drw *drw, unsigned int w, unsigned int h) {
 void drw_free(Drw *drw) {
     XFreePixmap(drw->dpy, drw->drawable);
     XFreeGC(drw->dpy, drw->gc);
+    drw_fontset_free(drw->fonts);
     free(drw);
 }
 
@@ -123,6 +124,15 @@ static Fnt *xfont_create(Drw *drw, const char *fontname,
         }
     } else {
         die("no font specified.");
+    }
+
+    /* Do not allow using color fonts. This is a workaround for a BadLength
+     * error from Xft with color glyphs. Modelled on the Xterm workaround. */
+
+    FcBool iscol;
+    if (FcPatternGetBool(xfont->pattern, FC_COLOR, 0, &iscol) == FcResultMatch && iscol) {
+        XftFontClose(drw->dpy, xfont);
+        return NULL;
     }
 
     font = ecalloc(1, sizeof(Fnt));

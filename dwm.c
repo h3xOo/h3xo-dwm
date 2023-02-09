@@ -275,7 +275,7 @@ void buttonpress(XEvent *e) {
             arg.ui = 1 << i;
         } else if (ev->x < x + blw)
             click = ClkLtSymbol;
-        else if (ev->x > (x = selmon->ww - TEXTW(stext) + lrpad)) {
+        else if (ev->x > (x = selmon->ww - (int)TEXTW(stext) + lrpad)) {
             click = ClkStatusText;
 
             char *text = rawstext;
@@ -561,6 +561,9 @@ void drawbar(Monitor *m) {
     unsigned int i, occ = 0, urg = 0;
     Client *c;
 
+    if (!m->showbar)
+        return;
+
     /* draw status first so it can be overdrawn by tags later */
     if (m == selmon) { /* status is only drawn on selected monitor */
         drw_setscheme(drw, scheme[SchemeNorm]);
@@ -693,7 +696,7 @@ void focusstack(const Arg *arg) {
     int i = stackpos(arg);
     Client *c, *p;
 
-    if (i < 0 || !selmon->sel || selmon->sel->isfullscreen)
+    if (i < 0 || !selmon->sel || (selmon->sel->isfullscreen && lockfullscreen))
         return;
 
     for (p = NULL, c = selmon->clients; c && (i || !ISVISIBLE(c));
