@@ -177,10 +177,12 @@ static const Key keys[] = {
     /* modifier         key        function        argument */
     STACKKEYS (MODKEY, focus) STACKKEYS (MODKEY | ShiftMask, push)
     /* { MODKEY|ShiftMask,		XK_Escape,	spawn,	SHCMD("") }, */
-    /* { MODKEY,			XK_grave,	spawn,	SHCMD("dmenuunicode")
+    /* { MODKEY,			XK_grave,	spawn,
+     * SHCMD("dmenuunicode")
      * },
      */
-    /* { MODKEY|ShiftMask,		XK_grave,	togglescratch,	SHCMD("")
+    /* { MODKEY|ShiftMask,		XK_grave,	togglescratch,
+     * SHCMD("")
      * },
      */
     TAGKEYS (XK_1, 0) TAGKEYS (XK_2, 1) TAGKEYS (XK_3, 2) TAGKEYS (XK_4, 3)
@@ -254,7 +256,8 @@ static const Key keys[] = {
     /* { MODKEY|ShiftMask,	XK_x,		spawn,		    SHCMD("")
      * },
      */
-    /* { MODKEY,			XK_c,		spawn,		    SHCMD("")
+    /* { MODKEY,			XK_c,		spawn,
+     * SHCMD("")
      * },
      */
     /* { MODKEY|ShiftMask,	XK_c,		spawn,		    SHCMD("")
@@ -263,25 +266,30 @@ static const Key keys[] = {
     /* V is automatically bound above in STACKKEYS */
     { MODKEY, XK_b, togglebar, { 0 } },
     { MODKEY | ShiftMask, XK_b, spawn, SHCMD ("flameshot gui") },
-    /* { MODKEY,			XK_n,		spawn,		    SHCMD(TERMINAL " -e nvim
-       -c VimwikiIndex") }, */
-    /* { MODKEY|ShiftMask,	XK_n,		spawn,		    SHCMD(TERMINAL " -e
-       newsboat; pkill -RTMIN+6 dwmblocks") }, */
-    /* { MODKEY,			XK_m,		spawn,		    SHCMD(TERMINAL " -e ncmpcpp")
+    /* { MODKEY,			XK_n,		spawn,		    SHCMD(TERMINAL " -e
+       nvim -c VimwikiIndex") }, */
+    /* { MODKEY|ShiftMask,	XK_n,		spawn,		    SHCMD(TERMINAL "
+       -e newsboat; pkill -RTMIN+6 dwmblocks") }, */
+    /* { MODKEY,			XK_m,		spawn,		    SHCMD(TERMINAL " -e
+     * ncmpcpp")
      * },
      */
     { MODKEY | ShiftMask, XK_m, spawn,
       SHCMD ("pamixer -t; kill -44 $(pidof dwmblocks)") },
-    /* { MODKEY,			XK_comma,	spawn,		    SHCMD("mpc prev")
+    /* { MODKEY,			XK_comma,	spawn,		    SHCMD("mpc
+     * prev")
      * },
      */
-    /* { MODKEY|ShiftMask,	XK_comma,	spawn,		    SHCMD("mpc seek 0%")
+    /* { MODKEY|ShiftMask,	XK_comma,	spawn,		    SHCMD("mpc seek
+     * 0%")
      * },
      */
-    /* { MODKEY,			XK_period,	spawn,		    SHCMD("mpc next")
+    /* { MODKEY,			XK_period,	spawn,		    SHCMD("mpc
+     * next")
      * },
      */
-    /* { MODKEY|ShiftMask,	XK_period,	spawn,		    SHCMD("mpc repeat")
+    /* { MODKEY|ShiftMask,	XK_period,	spawn,		    SHCMD("mpc
+     * repeat")
      * },
      */
 
@@ -304,63 +312,74 @@ static const Key keys[] = {
       SHCMD ("pamixer -i 5; kill -44 $(pidof dwmblocks)") },
     { 0, XF86XK_AudioLowerVolume, spawn,
       SHCMD ("pamixer -d 5; kill -44 $(pidof dwmblocks)") },
-    /* { 0, XF86XK_AudioPrev,		            spawn,		SHCMD("mpc prev")
+    /* { 0, XF86XK_AudioPrev,		            spawn,		SHCMD("mpc
+     * prev")
      * },
      */
-    /* { 0, XF86XK_AudioNext,		            spawn,		SHCMD("mpc next")
+    /* { 0, XF86XK_AudioNext,		            spawn,		SHCMD("mpc
+     * next")
      * },
      */
-    /* { 0, XF86XK_AudioPause,		            spawn,		SHCMD("mpc pause")
+    /* { 0, XF86XK_AudioPause,		            spawn,		SHCMD("mpc
+     * pause")
      * },
      */
-    /* { 0, XF86XK_AudioPlay,		            spawn,		SHCMD("mpc play")
+    /* { 0, XF86XK_AudioPlay,		            spawn,		SHCMD("mpc
+     * play")
      * },
      */
-    /* { 0, XF86XK_AudioStop,		            spawn,		SHCMD("mpc stop")
+    /* { 0, XF86XK_AudioStop,		            spawn,		SHCMD("mpc
+     * stop")
      * },
      */
     /* { 0, XF86XK_AudioRewind,	                spawn,		SHCMD("mpc seek
        -10")
        }, */
-    /* { 0, XF86XK_AudioForward,	            spawn,		SHCMD("mpc seek +10")
+    /* { 0, XF86XK_AudioForward,	            spawn,		SHCMD("mpc seek
+     * +10")
      * },
      */
-    /* { 0, XF86XK_AudioMedia,		            spawn,		SHCMD(TERMINAL "
-       -e ncmpcpp") }, */
+    /* { 0, XF86XK_AudioMedia,		            spawn,		SHCMD(TERMINAL
+       " -e ncmpcpp") }, */
     { 0, XF86XK_AudioMicMute, spawn,
       SHCMD ("pactl set-source-mute @DEFAULT_SOURCE@ toggle") },
-    /* { 0, XF86XK_PowerOff,		            spawn,		SHCMD("sysact")
+    /* { 0, XF86XK_PowerOff,		            spawn,
+     * SHCMD("sysact")
      * },
      */
-    /* { 0, XF86XK_Calculator,		            spawn,		SHCMD(TERMINAL " -e
-       bc -l") }, */
-    /* { 0, XF86XK_Sleep,		                spawn,		SHCMD("sudo -A zzz")
+    /* { 0, XF86XK_Calculator,		            spawn,		SHCMD(TERMINAL "
+       -e bc -l") }, */
+    /* { 0, XF86XK_Sleep,		                spawn,		SHCMD("sudo -A
+     * zzz")
      * },
      */
-    /* { 0, XF86XK_WWW,		                    spawn,		SHCMD("$BROWSER")
+    /* { 0, XF86XK_WWW,		                    spawn,
+     * SHCMD("$BROWSER")
      * },
      */
-    /* { 0, XF86XK_DOS,		                    spawn,		SHCMD(TERMINAL)
+    /* { 0, XF86XK_DOS,		                    spawn,
+     * SHCMD(TERMINAL)
      * },
      */
     /* { 0, XF86XK_ScreenSaver,	                spawn,		SHCMD("slock &
        xset dpms force off; mpc pause; pauseallmpv") }, */
-    /* { 0, XF86XK_TaskPane,		            spawn,		SHCMD(TERMINAL " -e
-       htop")
+    /* { 0, XF86XK_TaskPane,		            spawn,		SHCMD(TERMINAL "
+       -e htop")
        }, */
-    /* { 0, XF86XK_Mail,		                spawn,		SHCMD(TERMINAL "
-       -e neomutt ; pkill -RTMIN+12 dwmblocks") }, */
-    /* { 0, XF86XK_MyComputer,		            spawn,		SHCMD(TERMINAL " -e
-       lf
+    /* { 0, XF86XK_Mail,		                spawn,		SHCMD(TERMINAL
+       " -e neomutt ; pkill -RTMIN+12 dwmblocks") }, */
+    /* { 0, XF86XK_MyComputer,		            spawn,		SHCMD(TERMINAL "
+       -e lf
        /") }, */
-    /* { 0, XF86XK_Battery,		                spawn,		SHCMD("")
+    /* { 0, XF86XK_Battery,		                spawn,
+     * SHCMD("")
      * },
      */
-    /* { 0, XF86XK_Launch1,		                spawn,		SHCMD("xset dpms
-       force off") }, */
-    /* { 0, XF86XK_TouchpadToggle,	            spawn,		SHCMD("(synclient
-       | grep 'TouchpadOff.*1' && synclient TouchpadOff=0) || synclient
-       TouchpadOff=1") }, */
+    /* { 0, XF86XK_Launch1,		                spawn,		SHCMD("xset
+       dpms force off") }, */
+    /* { 0, XF86XK_TouchpadToggle,	            spawn,
+       SHCMD("(synclient | grep 'TouchpadOff.*1' && synclient TouchpadOff=0) ||
+       synclient TouchpadOff=1") }, */
     /* { 0, XF86XK_TouchpadOff,	                spawn, SHCMD("synclient
        TouchpadOff=1") }, */
     /* { 0, XF86XK_TouchpadOn,		            spawn,
