@@ -260,7 +260,7 @@ void unswallow(Client* c)
 
 void buttonpress(XEvent* e)
 {
-    unsigned int i, x, click, occ = 0;
+    unsigned int i, x, click;
     Arg arg = { 0 };
     Client* c;
     Monitor* m;
@@ -274,9 +274,10 @@ void buttonpress(XEvent* e)
         focus(NULL);
     }
     if (ev->window == selmon->barwin) {
+        unsigned int occ = 0;
         i = x = 0;
         for (c = m->clients; c; c = c->next)
-            occ |= c->tags == 255 ? 0 : c->tags;
+            occ |= c->tags;
         do {
             /* do not reserve space for vacant tags */
             if (!(occ & 1 << i || m->tagset[m->seltags] & 1 << i))
@@ -614,10 +615,9 @@ void drawbar(Monitor* m)
     }
     x = 0;
     for (i = 0; i < LENGTH(tags); i++) {
-        /* do not draw vacant tags */
+        /* Do not draw vacant tags */
         if (!(occ & 1 << i || m->tagset[m->seltags] & 1 << i))
             continue;
-
         w = TEXTW(tags[i]);
         drw_setscheme(
             drw, scheme[m->tagset[m->seltags] & 1 << i ? SchemeSel : SchemeNorm]);
