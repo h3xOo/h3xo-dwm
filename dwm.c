@@ -43,6 +43,10 @@
 #include <X11/Xft/Xft.h>
 #include <X11/Xlib-xcb.h>
 #include <xcb/res.h>
+#ifdef __OpenBSD__
+#include <sys/sysctl.h>
+#include <kvm.h>
+#endif /* __OpenBSD */
 
 #include "config.h"
 #include "drw.h"
@@ -75,21 +79,21 @@ void applyrules(Client* c)
         if ((!r->title || strstr(c->name, r->title))
             && (!r->class || strstr(class, r->class))
             && (!r->instance || strstr(instance, r->instance))) {
-            c->isterminal = r->isterminal;
-            c->isfloating = r->isfloating;
-            c->noswallow = r->noswallow;
-            c->tags |= r->tags;
-            if ((r->tags & SPTAGMASK) && r->isfloating) {
-                c->x = c->mon->wx
-                    + (c->mon->ww / 2 - WIDTH(c) / 2);
-                c->y = c->mon->wy
-                    + (c->mon->wh / 2 - HEIGHT(c) / 2);
-            }
+                c->isterminal = r->isterminal;
+                c->isfloating = r->isfloating;
+                c->noswallow = r->noswallow;
+                c->tags |= r->tags;
+                if ((r->tags & SPTAGMASK) && r->isfloating) {
+                    c->x = c->mon->wx
+                        + (c->mon->ww / 2 - WIDTH(c) / 2);
+                    c->y = c->mon->wy
+                        + (c->mon->wh / 2 - HEIGHT(c) / 2);
+                }
 
-            for (m = mons; m && m->num != r->monitor; m = m->next)
-                ;
-            if (m)
-                c->mon = m;
+                for (m = mons; m && m->num != r->monitor; m = m->next)
+                    ;
+                if (m)
+                    c->mon = m;
         }
     }
     if (ch.res_class)
@@ -2109,6 +2113,7 @@ pid_t winpid(Window w)
 {
     pid_t result = 0;
 
+#ifdef __linux__
     xcb_res_client_id_spec_t spec = { 0 };
     spec.client = w;
     spec.mask = XCB_RES_CLIENT_ID_MASK_LOCAL_CLIENT_PID;
@@ -2137,6 +2142,23 @@ pid_t winpid(Window w)
 
     if (result == (pid_t)-1)
         result = 0;
+#endif /* __linux */
+
+#ifdef __OpenBSD__
+    Atom type;
+    int format;
+    unsigned long len, bytes;
+    unsigned char *prop;
+    pid_t ret;
+
+    if (XGetWindowProperty(dpy, w, XInternAtom(dpy, "_NET_WM_PID", 0), 0, 1, False, AnyPropertyType, &type, &format, &len, &bytes, &prop) != Success || !prop)
+        return 0;
+
+    ret = *(pid_t*)prop;
+    XFree(prop);
+    result = ret;
+
+#endif /* __OpenBSD__ */
     return result;
 }
 
@@ -2144,7 +2166,7 @@ pid_t getparentprocess(pid_t p)
 {
     unsigned int v = 0;
 
-#if defined(__linux__)
+#ifdef __linux__
     FILE* f;
     char buf[256];
     snprintf(buf, sizeof(buf) - 1, "/proc/%u/stat", (unsigned)p);
@@ -2155,13 +2177,19 @@ pid_t getparentprocess(pid_t p)
     if (fscanf(f, "%*u %*s %*c %u", (unsigned*)&v) != 1)
         v = (pid_t)0;
     fclose(f);
-#elif defined(__FreeBSD__)
-    struct kinfo_proc* proc = kinfo_getproc(p);
-    if (!proc)
-        return (pid_t)0;
+#endif
 
-    v = proc->ki_ppid;
-    free(proc);
+#ifdef __OpenBSD__
+    int n;
+    kvm_t* kd;
+    struct kinfo_proc* proc;
+
+    kd = kvm_openfiles(NULL, NULL, NULL, KVM_NO_FILES, NULL);
+    if (!kd)
+        return 0;
+
+    kp = kvm_getprocs(kd, KERN_PROC_PID, p, sizeof(*kp), &n);
+    v = kp->p_ppid;
 #endif
     return (pid_t)v;
 }
@@ -2354,7 +2382,7 @@ int main(int argc, char* argv[])
     load_xresources();
     setup();
 #ifdef __OpenBSD__
-    if (pledge("stdio rpath proc exec", NULL) == -1)
+    if (pledge("stdio rpath proc exec ps", NULL) == -1)
         die("pledge");
 #endif /* __OpenBSD__ */
     scan();
