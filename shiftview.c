@@ -7,10 +7,9 @@
 #include "dwm.h"
 #include "util.h"
 
-void shiftview(const Arg* arg)
-{
+void shiftview(const Arg *arg) {
     Arg shifted;
-    Client* c;
+    Client *c;
     unsigned int tagmask = 0;
 
     for (c = selmon->clients; c; c = c->next)
@@ -20,24 +19,23 @@ void shiftview(const Arg* arg)
     shifted.ui = selmon->tagset[selmon->seltags] & ~SPTAGMASK;
     if (arg->i > 0) /* left circular shift */
         do {
-            shifted.ui = (shifted.ui << arg->i)
-                | (shifted.ui >> (LENGTH(tags) - arg->i));
+            shifted.ui = (shifted.ui << arg->i) |
+                         (shifted.ui >> (LENGTH(tags) - arg->i));
             shifted.ui &= ~SPTAGMASK;
         } while (tagmask && !(shifted.ui & tagmask));
     else /* right circular shift */
         do {
-            shifted.ui = (shifted.ui >> (-arg->i)
-                | shifted.ui << (LENGTH(tags) + arg->i));
+            shifted.ui = (shifted.ui >> (-arg->i) |
+                          shifted.ui << (LENGTH(tags) + arg->i));
             shifted.ui &= ~SPTAGMASK;
         } while (tagmask && !(shifted.ui & tagmask));
 
     view(&shifted);
 }
 
-void shifttag(const Arg* arg)
-{
+void shifttag(const Arg *arg) {
     Arg a;
-    Client* c;
+    Client *c;
     unsigned visible = 0;
     int i = arg->i;
     int count = 0;
@@ -45,12 +43,12 @@ void shifttag(const Arg* arg)
 
     do {
         if (i > 0) // left circular shift
-            nextseltags
-                = (curseltags << i) | (curseltags >> (LENGTH(tags) - i));
+            nextseltags =
+                (curseltags << i) | (curseltags >> (LENGTH(tags) - i));
 
         else // right circular shift
-            nextseltags
-                = curseltags >> (-i) | (curseltags << (LENGTH(tags) + i));
+            nextseltags =
+                curseltags >> (-i) | (curseltags << (LENGTH(tags) + i));
 
         // Check if tag is visible
         for (c = selmon->clients; c && !visible; c = c->next)
