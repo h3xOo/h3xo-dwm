@@ -4,10 +4,7 @@
  *          or left (negative value)
  */
 
-#include "dwm.h"
-#include "util.h"
-
-void shiftview(const Arg* arg)
+static void shiftview(const Arg* arg)
 {
     Arg shifted;
     Client* c;
@@ -32,7 +29,7 @@ void shiftview(const Arg* arg)
     view(&shifted);
 }
 
-void shifttag(const Arg* arg)
+static void shifttag(const Arg* arg)
 {
     Arg a;
     Client* c;
