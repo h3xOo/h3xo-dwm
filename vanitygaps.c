@@ -1,10 +1,4 @@
 /* Key binding functions */
-
-#include "dwm.h"
-#include "util.h"
-
-#include <stdio.h>
-
 static void defaultgaps(const Arg* arg);
 static void incrgaps(const Arg* arg);
 /* static void incrigaps(const Arg *arg); */
@@ -161,7 +155,7 @@ static void getgaps(Monitor* m, int* oh, int* ov, int* ih, int* iv,
     *nc = n; // number of clients
 }
 
-void getfacts(Monitor* m, int msize, int ssize, float* mf, float* sf, int* mr,
+static void getfacts(Monitor* m, int msize, int ssize, float* mf, float* sf, int* mr,
     int* sr)
 {
     unsigned int n;
@@ -245,7 +239,7 @@ static void bstack(Monitor* m)
  * https://dwm.suckless.org/patches/centeredmaster/
  */
 
-void centeredmaster(Monitor* m)
+static void centeredmaster(Monitor* m)
 {
     unsigned int i, n;
     int mx = 0, my = 0, mh = 0, mw = 0;
@@ -335,7 +329,7 @@ void centeredmaster(Monitor* m)
     }
 }
 
-void centeredfloatingmaster(Monitor* m)
+static void centeredfloatingmaster(Monitor* m)
 {
     unsigned int i, n;
     float mfacts, sfacts;

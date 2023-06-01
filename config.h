@@ -3,8 +3,6 @@
 
 #include <X11/Xlib.h>
 
-#include "dwm.h"
-
 /* See LICENSE file for copyright and license details. */
 
 /* Constants */
