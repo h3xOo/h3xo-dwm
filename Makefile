@@ -8,13 +8,6 @@ OBJ = ${SRC:.c=.o}
 
 all: dwm
 
-options:
-	@echo dwm build options:
-	@echo "CFLAGS   = ${CFLAGS}"
-	@echo "LDFLAGS  = ${LDFLAGS}"
-	@echo "CC       = ${CC}"
-	@echo ""
-
 .c.o:
 	${CC} -c ${CFLAGS} $<
 
