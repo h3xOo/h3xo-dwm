@@ -1045,7 +1045,7 @@ Atom getatomprop(Client* c, Atom prop)
 }
 
 #ifndef __OpenBSD__
-int getdwmblockspid()
+int getdwmblockspid(void)
 {
     char buf[16];
     FILE* fp = popen("pidof -s dwmblocks", "r");
@@ -2149,7 +2149,7 @@ void updatebarpos(Monitor* m)
         m->by = -bh;
 }
 
-void updateclientlist()
+void updateclientlist(void)
 {
     Client* c;
     Monitor* m;
