@@ -48,18 +48,21 @@ static void setgaps(int oh, int ov, int ih, int iv)
 
 static void togglegaps(const Arg* arg)
 {
+    (void)arg;
     enablegaps = !enablegaps;
     arrange(NULL);
 }
 
 static void togglesmartgaps(const Arg* arg)
 {
+    (void)arg;
     smartgaps = !smartgaps;
     arrange(NULL);
 }
 
 static void defaultgaps(const Arg* arg)
 {
+    (void)arg;
     setgaps(gappoh, gappov, gappih, gappiv);
 }
 

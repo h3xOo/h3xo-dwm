@@ -1186,6 +1186,7 @@ void keypress(XEvent* e)
 
 void killclient(const Arg* arg)
 {
+    (void)arg;
     if (!selmon->sel)
         return;
     if (!sendevent(selmon->sel, wmatom[WMDelete])) {
@@ -1321,6 +1322,7 @@ void motionnotify(XEvent* e)
 
 void movemouse(const Arg* arg)
 {
+    (void)arg;
     int x, y, ocx, ocy, nx, ny;
     Client* c;
     Monitor* m;
@@ -1499,6 +1501,7 @@ void resizeclient(Client* c, int x, int y, int w, int h)
 
 void resizemouse(const Arg* arg)
 {
+    (void)arg;
     int ocx, ocy, nw, nh;
     Client* c;
     Monitor* m;
@@ -1892,12 +1895,14 @@ void showhide(Client* c)
 
 void sighup(int unused)
 {
+    (void)unused;
     Arg a = { .i = 1 };
     quit(&a);
 }
 
 void sigterm(int unused)
 {
+    (void)unused;
     Arg a = { .i = 0 };
     quit(&a);
 }
@@ -1956,6 +1961,7 @@ void tagmon(const Arg* arg)
 
 void togglebar(const Arg* arg)
 {
+    (void)arg;
     selmon->showbar = !selmon->showbar;
     updatebarpos(selmon);
     XMoveResizeWindow(dpy, selmon->barwin, selmon->wx, selmon->by, selmon->ww,
@@ -1965,6 +1971,7 @@ void togglebar(const Arg* arg)
 
 void togglefloating(const Arg* arg)
 {
+    (void)arg;
     if (!selmon->sel)
         return;
     if (selmon->sel->isfullscreen) /* no support for fullscreen windows */
@@ -1978,12 +1985,14 @@ void togglefloating(const Arg* arg)
 
 void togglefullscr(const Arg* arg)
 {
+    (void)arg;
     if (selmon->sel)
         setfullscreen(selmon->sel, !selmon->sel->isfullscreen);
 }
 
 void togglesticky(const Arg* arg)
 {
+    (void)arg;
     if (!selmon->sel)
         return;
     selmon->sel->issticky = !selmon->sel->issticky;
@@ -2509,18 +2518,26 @@ int xerror(Display* dpy, XErrorEvent* ee)
     return xerrorxlib(dpy, ee); /* may call exit */
 }
 
-int xerrordummy(Display* dpy, XErrorEvent* ee) { return 0; }
+int xerrordummy(Display* dpy, XErrorEvent* ee)
+{
+    (void)dpy;
+    (void)ee;
+    return 0;
+}
 
 /* Startup Error handler to check if another window manager
  * is already running. */
 int xerrorstart(Display* dpy, XErrorEvent* ee)
 {
+    (void)dpy;
+    (void)ee;
     die("dwm: another window manager is already running");
     return -1;
 }
 
 void zoom(const Arg* arg)
 {
+    (void)arg;
     Client* c = selmon->sel;
 
     if (!selmon->lt[selmon->sellt]->arrange || !c || c->isfloating)
