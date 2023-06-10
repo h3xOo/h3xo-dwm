@@ -29,11 +29,9 @@ static const char normbgcolor[] = "#222222";
 static const char normbordercolor[] = "#444444";
 static const char normfgcolor[] = "#bbbbbb";
 static const char selfgcolor[] = "#eeeeee";
-static const char selbordercolor[] = "#282C34"; // kolor ramki wokół mastera - defaultowo czerwony
-// #aa758c - ruszofy, #998579 - bronzofy, #bd93f9 - dracula purple, #ff79c6 -
-// dracula pink, #50fa7b - dracula green, #104a8e - dracula blue, #8058b9 -
-// purple
-static const char selbgcolor[] = "#223249";
+static const char selbordercolor[] = "#282C34"; // Master border color
+/* #998579 - brown, #223249 - kanagawa */
+static const char selbgcolor[] = "#998579";
 static const char* colors[][3] = {
     /*               fg           bg           border   */
     [SchemeNorm] = { normfgcolor, normbgcolor, normbordercolor },
