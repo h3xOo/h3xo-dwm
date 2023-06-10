@@ -75,12 +75,16 @@
 #define TRUNC(X, A, B) (MAX((A), MIN((X), (B))))
 
 /* enums */
-enum { CurNormal,
+enum {
+    CurNormal,
     CurResize,
     CurMove,
-    CurLast }; /* cursor */
-enum { SchemeNorm,
-    SchemeSel }; /* color schemes */
+    CurLast
+}; /* cursor */
+enum {
+    SchemeNorm,
+    SchemeSel
+}; /* color schemes */
 enum {
     NetSupported,
     NetWMName,
@@ -195,8 +199,7 @@ typedef struct {
 
 /* function declarations */
 static void applyrules(Client* c);
-static int applysizehints(Client* c, int* x, int* y, int* w, int* h,
-    int interact);
+static int applysizehints(Client* c, int* x, int* y, int* w, int* h, int interact);
 static void arrange(Monitor* m);
 static void arrangemon(Monitor* m);
 static void attach(Client* c);
