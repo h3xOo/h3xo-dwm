@@ -6,14 +6,7 @@ include config.mk
 SRC = drw.c dwm.c util.c
 OBJ = ${SRC:.c=.o}
 
-all: options dwm
-
-options:
-	@echo dwm build options:
-	@echo "CFLAGS   = ${CFLAGS}"
-	@echo "LDFLAGS  = ${LDFLAGS}"
-	@echo "CC       = ${CC}"
-	@echo ""
+all: dwm
 
 .c.o:
 	${CC} -c ${CFLAGS} $<

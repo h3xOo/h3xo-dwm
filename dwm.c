@@ -23,7 +23,6 @@
 #include <X11/Xatom.h>
 #include <X11/Xlib.h>
 #include <X11/Xproto.h>
-#include <X11/Xresource.h>
 #include <X11/Xutil.h>
 #include <X11/cursorfont.h>
 #include <X11/keysym.h>
@@ -76,12 +75,16 @@
 #define TRUNC(X, A, B) (MAX((A), MIN((X), (B))))
 
 /* enums */
-enum { CurNormal,
+enum {
+    CurNormal,
     CurResize,
     CurMove,
-    CurLast }; /* cursor */
-enum { SchemeNorm,
-    SchemeSel }; /* color schemes */
+    CurLast
+}; /* cursor */
+enum {
+    SchemeNorm,
+    SchemeSel
+}; /* color schemes */
 enum {
     NetSupported,
     NetWMName,
@@ -194,21 +197,9 @@ typedef struct {
     int monitor;
 } Rule;
 
-/* Xresources preferences */
-enum resource_type { STRING = 0,
-    INTEGER = 1,
-    FLOAT = 2 };
-
-typedef struct {
-    char* name;
-    enum resource_type type;
-    void* dst;
-} ResourcePref;
-
 /* function declarations */
 static void applyrules(Client* c);
-static int applysizehints(Client* c, int* x, int* y, int* w, int* h,
-    int interact);
+static int applysizehints(Client* c, int* x, int* y, int* w, int* h, int interact);
 static void arrange(Monitor* m);
 static void arrangemon(Monitor* m);
 static void attach(Client* c);
@@ -310,9 +301,6 @@ static int xerror(Display* dpy, XErrorEvent* ee);
 static int xerrordummy(Display* dpy, XErrorEvent* ee);
 static int xerrorstart(Display* dpy, XErrorEvent* ee);
 static void zoom(const Arg* arg);
-static void load_xresources(void);
-static void resource_load(XrmDatabase db, char* name, enum resource_type rtype,
-    void* dst);
 
 static pid_t getparentprocess(pid_t p);
 static int isdescprocess(pid_t p, pid_t c);
@@ -325,7 +313,7 @@ static const char broken[] = "broken";
 static char stext[256];
 static char rawstext[256];
 static int dwmblockssig;
-pid_t dwmblockspid = 0;
+static pid_t dwmblockspid = 0;
 static int screen;
 static int sw, sh; /* X display screen geometry width, height */
 static int bh; /* bar height */
@@ -1060,7 +1048,7 @@ Atom getatomprop(Client* c, Atom prop)
 }
 
 #ifndef __OpenBSD__
-int getdwmblockspid()
+int getdwmblockspid(void)
 {
     char buf[16];
     FILE* fp = popen("pidof -s dwmblocks", "r");
@@ -1201,6 +1189,7 @@ void keypress(XEvent* e)
 
 void killclient(const Arg* arg)
 {
+    (void)arg;
     if (!selmon->sel)
         return;
     if (!sendevent(selmon->sel, wmatom[WMDelete])) {
@@ -1336,6 +1325,7 @@ void motionnotify(XEvent* e)
 
 void movemouse(const Arg* arg)
 {
+    (void)arg;
     int x, y, ocx, ocy, nx, ny;
     Client* c;
     Monitor* m;
@@ -1514,6 +1504,7 @@ void resizeclient(Client* c, int x, int y, int w, int h)
 
 void resizemouse(const Arg* arg)
 {
+    (void)arg;
     int ocx, ocy, nw, nh;
     Client* c;
     Monitor* m;
@@ -1907,12 +1898,14 @@ void showhide(Client* c)
 
 void sighup(int unused)
 {
+    (void)unused;
     Arg a = { .i = 1 };
     quit(&a);
 }
 
 void sigterm(int unused)
 {
+    (void)unused;
     Arg a = { .i = 0 };
     quit(&a);
 }
@@ -1971,6 +1964,7 @@ void tagmon(const Arg* arg)
 
 void togglebar(const Arg* arg)
 {
+    (void)arg;
     selmon->showbar = !selmon->showbar;
     updatebarpos(selmon);
     XMoveResizeWindow(dpy, selmon->barwin, selmon->wx, selmon->by, selmon->ww,
@@ -1980,6 +1974,7 @@ void togglebar(const Arg* arg)
 
 void togglefloating(const Arg* arg)
 {
+    (void)arg;
     if (!selmon->sel)
         return;
     if (selmon->sel->isfullscreen) /* no support for fullscreen windows */
@@ -1993,12 +1988,14 @@ void togglefloating(const Arg* arg)
 
 void togglefullscr(const Arg* arg)
 {
+    (void)arg;
     if (selmon->sel)
         setfullscreen(selmon->sel, !selmon->sel->isfullscreen);
 }
 
 void togglesticky(const Arg* arg)
 {
+    (void)arg;
     if (!selmon->sel)
         return;
     selmon->sel->issticky = !selmon->sel->issticky;
@@ -2155,7 +2152,7 @@ void updatebarpos(Monitor* m)
         m->by = -bh;
 }
 
-void updateclientlist()
+void updateclientlist(void)
 {
     Client* c;
     Monitor* m;
@@ -2524,18 +2521,26 @@ int xerror(Display* dpy, XErrorEvent* ee)
     return xerrorxlib(dpy, ee); /* may call exit */
 }
 
-int xerrordummy(Display* dpy, XErrorEvent* ee) { return 0; }
+int xerrordummy(Display* dpy, XErrorEvent* ee)
+{
+    (void)dpy;
+    (void)ee;
+    return 0;
+}
 
 /* Startup Error handler to check if another window manager
  * is already running. */
 int xerrorstart(Display* dpy, XErrorEvent* ee)
 {
+    (void)dpy;
+    (void)ee;
     die("dwm: another window manager is already running");
     return -1;
 }
 
 void zoom(const Arg* arg)
 {
+    (void)arg;
     Client* c = selmon->sel;
 
     if (!selmon->lt[selmon->sellt]->arrange || !c || c->isfloating)
@@ -2545,57 +2550,6 @@ void zoom(const Arg* arg)
     pop(c);
 }
 
-void resource_load(XrmDatabase db, char* name, enum resource_type rtype,
-    void* dst)
-{
-    char* sdst = NULL;
-    int* idst = NULL;
-    float* fdst = NULL;
-
-    sdst = dst;
-    idst = dst;
-    fdst = dst;
-
-    char fullname[256];
-    char* type;
-    XrmValue ret;
-
-    snprintf(fullname, sizeof(fullname), "%s.%s", "dwm", name);
-    fullname[sizeof(fullname) - 1] = '\0';
-
-    XrmGetResource(db, fullname, "*", &type, &ret);
-    if (!(ret.addr == NULL || strncmp("String", type, 64))) {
-        switch (rtype) {
-        case STRING:
-            strcpy(sdst, ret.addr);
-            break;
-        case INTEGER:
-            *idst = strtoul(ret.addr, NULL, 10);
-            break;
-        case FLOAT:
-            *fdst = strtof(ret.addr, NULL);
-            break;
-        }
-    }
-}
-
-void load_xresources(void)
-{
-    Display* display;
-    char* resm;
-    XrmDatabase db;
-    ResourcePref* p;
-
-    display = XOpenDisplay(NULL);
-    resm = XResourceManagerString(display);
-    if (!resm)
-        return;
-
-    db = XrmGetStringDatabase(resm);
-    for (p = resources; p < resources + LENGTH(resources); p++)
-        resource_load(db, p->name, p->type, p->dst);
-    XCloseDisplay(display);
-}
 
 int main(int argc, char* argv[])
 {
@@ -2610,8 +2564,6 @@ int main(int argc, char* argv[])
     if (!(xcon = XGetXCBConnection(dpy)))
         die("dwm: cannot get xcb connection\n");
     checkotherwm();
-    XrmInitialize();
-    load_xresources();
     setup();
 #ifdef __OpenBSD__
     if (pledge("stdio rpath proc exec ps", NULL) == -1)
