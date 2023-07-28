@@ -9,6 +9,10 @@
 #define TERMINAL "st"
 #define TERMCLASS "St"
 
+#ifndef BROWSER
+#define BROWSER "firefox"
+#endif
+
 /* appearance */
 static const unsigned int borderpx = 1; /* border pixel of windows */
 static const unsigned int snap = 32; /* snap pixel */
@@ -154,7 +158,7 @@ static const Key keys[] = {
     { MODKEY, XK_w, killclient, { 0 } },
     { MODKEY, XK_q, spawn, SHCMD("qbittorrent") },
     { MODKEY | ShiftMask, XK_q, spawn, SHCMD("sysact") },
-    { MODKEY | ShiftMask, XK_i, spawn, SHCMD("$BROWSER") },
+    { MODKEY | ShiftMask, XK_i, spawn, SHCMD(BROWSER) },
     { MODKEY, XK_e, spawn, SHCMD(TERMINAL " -e iwctl") },
     { MODKEY | ShiftMask, XK_e, spawn, SHCMD("gimp") },
     { MODKEY, XK_r, spawn, SHCMD(TERMINAL " -e lfub") },
