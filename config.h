@@ -161,8 +161,8 @@ static const Key keys[] = {
     { MODKEY | ShiftMask, XK_i, spawn, SHCMD(BROWSER) },
     { MODKEY, XK_e, spawn, SHCMD(TERMINAL " -e iwctl") },
     { MODKEY | ShiftMask, XK_e, spawn, SHCMD("gimp") },
-    { MODKEY, XK_r, spawn, SHCMD(TERMINAL " -e lfub") },
-    { MODKEY | ShiftMask, XK_r, spawn, SHCMD(TERMINAL " -e htop") },
+    { MODKEY, XK_r, spawn, SHCMD(TERMINAL " -e htop") },
+    { MODKEY | ShiftMask, XK_r, spawn, SHCMD(TERMINAL " -e lfub") },
     { MODKEY, XK_t, setlayout, { .v = &layouts[0] } }, /* tile */
     { MODKEY | ShiftMask, XK_t, setlayout, { .v = &layouts[1] } }, /* bstack */
     { MODKEY, XK_y, setlayout, { .v = &layouts[2] } }, /* spiral */
