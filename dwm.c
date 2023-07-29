@@ -50,6 +50,10 @@
 #include "drw.h"
 #include "util.h"
 
+#ifndef VERSION
+#    error "Version macro should be defined to current dwm version"
+#endif
+
 /* macros */
 #define BUTTONMASK (ButtonPressMask | ButtonReleaseMask)
 #define CLEANMASK(mask) \
