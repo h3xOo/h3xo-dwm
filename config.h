@@ -65,17 +65,17 @@ static const Rule rules[] = {
      *	WM_CLASS(STRING) = instance, class
      *	WM_NAME(STRING) = title
      */
-    /* class               instance    title           tags mask     isfloating  isterminal  noswallow  monitor */
-    { "discord",           NULL,       NULL,           1 << 1,       0,          0,          0,         -1 },
-    { "VSCodium",          NULL,       NULL,           1 << 2,       0,          0,          0,         -1 },
-    { "jetbrains-idea-ce", NULL,       NULL,           1 << 3,       0,          0,          0,         -1 },
-    { "Gimp",              NULL,       NULL,           1 << 4,       0,          0,          0,         -1 },
-    { "qBittorrent",       NULL,       NULL,           1 << 5,       0,          0,          0,         -1 },
-    { TERMCLASS,           NULL,       NULL,           0,            0,          1,          0,         -1 },
-    { NULL,                NULL,       "Event Tester", 0,            0,          0,          1,         -1 },
-    { NULL,                "bg",       NULL,           0,            0,          1,          1 << 7,    -1 },
-    { NULL,                "spterm",   NULL,           SPTAG(0),     1,          1,          0,         -1 },
-    { NULL,                "spcalc",   NULL,           SPTAG(1),     1,          1,          0,         -1 },
+    /* class               instance    title           tags mask      isfloating  isterminal  noswallow  monitor */
+    { "discord",           NULL,       NULL,           1U << 1,       0,          0,          0,         -1 },
+    { "VSCodium",          NULL,       NULL,           1U << 2,       0,          0,          0,         -1 },
+    { "jetbrains-idea-ce", NULL,       NULL,           1U << 3,       0,          0,          0,         -1 },
+    { "Gimp",              NULL,       NULL,           1U << 4,       0,          0,          0,         -1 },
+    { "qBittorrent",       NULL,       NULL,           1U << 5,       0,          0,          0,         -1 },
+    { TERMCLASS,           NULL,       NULL,           0,             0,          1,          0,         -1 },
+    { NULL,                NULL,       "Event Tester", 0,             0,          0,          1,         -1 },
+    { NULL,                "bg",       NULL,           0,             0,          1,          1 << 7,    -1 },
+    { NULL,                "spterm",   NULL,           SPTAG(0),      1,          1,          0,         -1 },
+    { NULL,                "spcalc",   NULL,           SPTAG(1),      1,          1,          0,         -1 },
 };
 
 /* layout(s) */
@@ -141,13 +141,15 @@ static const char* termcmd[] = { TERMINAL, NULL };
 
 static const Key keys[] = {
     /* modifier         key        function        argument */
-    STACKKEYS(MODKEY, focus) STACKKEYS(MODKEY | ShiftMask, push)
+    STACKKEYS(MODKEY, focus)
+    STACKKEYS(MODKEY | ShiftMask, push)
     /* { MODKEY|ShiftMask, XK_Escape,	spawn,	SHCMD("") }, */
     /* { MODKEY, XK_grave,	spawn, SHCMD("dmenuunicode") }, */
     /* { MODKEY|ShiftMask,	XK_grave,	togglescratch, SHCMD("") }, */
     TAGKEYS(XK_1, 0) TAGKEYS(XK_2, 1) TAGKEYS(XK_3, 2) TAGKEYS(XK_4, 3)
     TAGKEYS(XK_5, 4) TAGKEYS(XK_6, 5) TAGKEYS(XK_7, 6) TAGKEYS(XK_8, 7)
-    TAGKEYS(XK_9, 8) { MODKEY, XK_0, view, { .ui = ~0 } },
+    TAGKEYS(XK_9, 8)
+    { MODKEY, XK_0, view, { .ui = ~0 } },
     { MODKEY | ShiftMask, XK_0, tag, { .ui = ~0 } },
     { MODKEY, XK_minus, spawn, SHCMD("pamixer -d 5; kill -44 $(pidof dwmblocks)") },
     { MODKEY | ShiftMask, XK_minus, spawn, SHCMD("pamixer -d 10; kill -44 $(pidof dwmblocks)") },
