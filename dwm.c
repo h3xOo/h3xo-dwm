@@ -55,28 +55,25 @@
 #endif
 
 /* macros */
-#define BUTTONMASK (ButtonPressMask | ButtonReleaseMask)
-#define CLEANMASK(mask) \
-    (mask & ~(numlockmask | LockMask) & (ShiftMask | ControlMask | Mod1Mask | Mod2Mask | Mod3Mask | Mod4Mask | Mod5Mask))
-#define GETINC(X) ((X)-2000)
-#define INC(X) ((X) + 2000)
-#define INTERSECT(x, y, w, h, m) \
-    (MAX(0, MIN((x) + (w), (m)->wx + (m)->ww) - MAX((x), (m)->wx)) * MAX(0, MIN((y) + (h), (m)->wy + (m)->wh) - MAX((y), (m)->wy)))
-#define ISINC(X) ((X) > 1000 && (X) < 3000)
-#define ISVISIBLE(C) \
-    ((C->tags & C->mon->tagset[C->mon->seltags]) || C->issticky)
-#define PREVSEL 3000
-#define LENGTH(X) (sizeof X / sizeof X[0])
-#define MOUSEMASK (BUTTONMASK | PointerMotionMask)
-#define MOD(N, M) ((N) % (M) < 0 ? (N) % (M) + (M) : (N) % (M))
-#define WIDTH(X) ((X)->w + 2 * (X)->bw)
-#define HEIGHT(X) ((X)->h + 2 * (X)->bw)
-#define NUMTAGS (LENGTH(tags) + LENGTH(scratchpads))
-#define TAGMASK ((1 << NUMTAGS) - 1)
-#define SPTAG(i) ((1 << LENGTH(tags)) << (i))
-#define SPTAGMASK (((1 << LENGTH(scratchpads)) - 1) << LENGTH(tags))
-#define TEXTW(X) (drw_fontset_getwidth(drw, (X)) + lrpad)
-#define TRUNC(X, A, B) (MAX((A), MIN((X), (B))))
+#define BUTTONMASK              (ButtonPressMask | ButtonReleaseMask)
+#define CLEANMASK(mask)         (mask & ~(numlockmask | LockMask) & (ShiftMask | ControlMask | Mod1Mask | Mod2Mask | Mod3Mask | Mod4Mask | Mod5Mask))
+#define GETINC(X)               ((X) - 2000)
+#define INC(X)                  ((X) + 2000)
+#define INTERSECT(x, y, w, h, m) (MAX(0, MIN((x) + (w), (m)->wx + (m)->ww) - MAX((x), (m)->wx)) * MAX(0, MIN((y) + (h), (m)->wy + (m)->wh) - MAX((y), (m)->wy)))
+#define ISINC(X)                ((X) > 1000 && (X) < 3000)
+#define ISVISIBLE(C)            ((C->tags & C->mon->tagset[C->mon->seltags]) || C->issticky)
+#define PREVSEL                 3000
+#define LENGTH(X)               (sizeof X / sizeof X[0])
+#define MOUSEMASK               (BUTTONMASK | PointerMotionMask)
+#define MOD(N, M)               ((N) % (M) < 0 ? (N) % (M) + (M) : (N) % (M))
+#define WIDTH(X)                ((X)->w + 2 * (X)->bw)
+#define HEIGHT(X)               ((X)->h + 2 * (X)->bw)
+#define NUMTAGS                 (LENGTH(tags) + LENGTH(scratchpads))
+#define TAGMASK                 ((1 << NUMTAGS) - 1)
+#define SPTAG(i)                ((1 << LENGTH(tags)) << (i))
+#define SPTAGMASK               (((1 << LENGTH(scratchpads)) - 1) << LENGTH(tags))
+#define TEXTW(X)                (drw_fontset_getwidth(drw, (X)) + lrpad)
+#define TRUNC(X, A, B)          (MAX((A), MIN((X), (B))))
 
 /* enums */
 enum {
@@ -85,10 +82,12 @@ enum {
     CurMove,
     CurLast
 }; /* cursor */
+
 enum {
     SchemeNorm,
     SchemeSel
 }; /* color schemes */
+
 enum {
     NetSupported,
     NetWMName,
@@ -102,6 +101,7 @@ enum {
     NetClientInfo,
     NetLast
 }; /* EWMH atoms */
+
 enum {
     WMProtocols,
     WMDelete,
@@ -109,6 +109,7 @@ enum {
     WMTakeFocus,
     WMLast
 }; /* default atoms */
+
 enum {
     ClkTagBar,
     ClkLtSymbol,
@@ -431,6 +432,7 @@ int applysizehints(Client* c, int* x, int* y, int* w, int* h, int interact)
         if (*y + *h + 2 * c->bw <= m->wy)
             *y = m->wy;
     }
+
     if (*h < bh)
         *h = bh;
     if (*w < bh)
@@ -577,12 +579,12 @@ void buttonpress(XEvent* e)
         focus(NULL);
     }
     if (ev->window == selmon->barwin) {
-        unsigned int occ = 0;
         i = x = 0;
+        unsigned int occ = 0;
         for (c = m->clients; c; c = c->next)
             occ |= c->tags;
         do {
-            /* do not reserve space for vacant tags */
+            /* Do not reserve space for vacant tags */
             if (!(occ & 1 << i || m->tagset[m->seltags] & 1 << i))
                 continue;
             x += TEXTW(tags[i]);
@@ -1029,9 +1031,8 @@ void focusstack(const Arg* arg)
     if (i < 0 || !selmon->sel || (selmon->sel->isfullscreen && lockfullscreen))
         return;
 
-    for (p = NULL, c = selmon->clients; c && (i || !ISVISIBLE(c));
-         i -= ISVISIBLE(c) ? 1 : 0, p = c, c = c->next)
-        ;
+    for(p = NULL, c = selmon->clients; c && (i || !ISVISIBLE(c));
+    	    i -= ISVISIBLE(c) ? 1 : 0, p = c, c = c->next);
     focus(c ? c : p);
     restack(selmon);
 }
@@ -1428,9 +1429,9 @@ void pushstack(const Arg* arg)
     int i = stackpos(arg);
     Client *sel = selmon->sel, *c, *p;
 
-    if (i < 0 || !sel)
+    if (i < 0 || !sel) {
         return;
-    else if (i == 0) {
+    } else if (i == 0) {
         detach(sel);
         attach(sel);
     } else {
@@ -1778,8 +1779,9 @@ int stackpos(const Arg* arg)
              i += ISVISIBLE(c) ? 1 : 0, c = c->next)
             ;
         return MAX(i + arg->i, 0);
-    } else
+    } else {
         return arg->i;
+    }
 }
 
 void setlayout(const Arg* arg)
