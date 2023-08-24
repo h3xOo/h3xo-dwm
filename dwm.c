@@ -50,29 +50,30 @@
 #include "drw.h"
 #include "util.h"
 
+#ifndef VERSION
+#    error "Version macro should be defined to current dwm version"
+#endif
+
 /* macros */
-#define BUTTONMASK (ButtonPressMask | ButtonReleaseMask)
-#define CLEANMASK(mask) \
-    (mask & ~(numlockmask | LockMask) & (ShiftMask | ControlMask | Mod1Mask | Mod2Mask | Mod3Mask | Mod4Mask | Mod5Mask))
-#define GETINC(X) ((X)-2000)
-#define INC(X) ((X) + 2000)
-#define INTERSECT(x, y, w, h, m) \
-    (MAX(0, MIN((x) + (w), (m)->wx + (m)->ww) - MAX((x), (m)->wx)) * MAX(0, MIN((y) + (h), (m)->wy + (m)->wh) - MAX((y), (m)->wy)))
-#define ISINC(X) ((X) > 1000 && (X) < 3000)
-#define ISVISIBLE(C) \
-    ((C->tags & C->mon->tagset[C->mon->seltags]) || C->issticky)
-#define PREVSEL 3000
-#define LENGTH(X) (sizeof X / sizeof X[0])
-#define MOUSEMASK (BUTTONMASK | PointerMotionMask)
-#define MOD(N, M) ((N) % (M) < 0 ? (N) % (M) + (M) : (N) % (M))
-#define WIDTH(X) ((X)->w + 2 * (X)->bw)
-#define HEIGHT(X) ((X)->h + 2 * (X)->bw)
-#define NUMTAGS (LENGTH(tags) + LENGTH(scratchpads))
-#define TAGMASK ((1 << NUMTAGS) - 1)
-#define SPTAG(i) ((1 << LENGTH(tags)) << (i))
-#define SPTAGMASK (((1 << LENGTH(scratchpads)) - 1) << LENGTH(tags))
-#define TEXTW(X) (drw_fontset_getwidth(drw, (X)) + lrpad)
-#define TRUNC(X, A, B) (MAX((A), MIN((X), (B))))
+#define BUTTONMASK              (ButtonPressMask | ButtonReleaseMask)
+#define CLEANMASK(mask)         (mask & ~(numlockmask | LockMask) & (ShiftMask | ControlMask | Mod1Mask | Mod2Mask | Mod3Mask | Mod4Mask | Mod5Mask))
+#define GETINC(X)               ((X) - 2000)
+#define INC(X)                  ((X) + 2000)
+#define INTERSECT(x, y, w, h, m) (MAX(0, MIN((x) + (w), (m)->wx + (m)->ww) - MAX((x), (m)->wx)) * MAX(0, MIN((y) + (h), (m)->wy + (m)->wh) - MAX((y), (m)->wy)))
+#define ISINC(X)                ((X) > 1000 && (X) < 3000)
+#define ISVISIBLE(C)            ((C->tags & C->mon->tagset[C->mon->seltags]) || C->issticky)
+#define PREVSEL                 3000
+#define LENGTH(X)               (sizeof X / sizeof X[0])
+#define MOUSEMASK               (BUTTONMASK | PointerMotionMask)
+#define MOD(N, M)               ((N) % (M) < 0 ? (N) % (M) + (M) : (N) % (M))
+#define WIDTH(X)                ((X)->w + 2 * (X)->bw)
+#define HEIGHT(X)               ((X)->h + 2 * (X)->bw)
+#define NUMTAGS                 (LENGTH(tags) + LENGTH(scratchpads))
+#define TAGMASK                 ((1 << NUMTAGS) - 1)
+#define SPTAG(i)                ((1 << LENGTH(tags)) << (i))
+#define SPTAGMASK               (((1 << LENGTH(scratchpads)) - 1) << LENGTH(tags))
+#define TEXTW(X)                (drw_fontset_getwidth(drw, (X)) + lrpad)
+#define TRUNC(X, A, B)          (MAX((A), MIN((X), (B))))
 
 /* enums */
 enum {
@@ -81,10 +82,12 @@ enum {
     CurMove,
     CurLast
 }; /* cursor */
+
 enum {
     SchemeNorm,
     SchemeSel
 }; /* color schemes */
+
 enum {
     NetSupported,
     NetWMName,
@@ -95,8 +98,10 @@ enum {
     NetWMWindowType,
     NetWMWindowTypeDialog,
     NetClientList,
+    NetClientInfo,
     NetLast
 }; /* EWMH atoms */
+
 enum {
     WMProtocols,
     WMDelete,
@@ -104,6 +109,7 @@ enum {
     WMTakeFocus,
     WMLast
 }; /* default atoms */
+
 enum {
     ClkTagBar,
     ClkLtSymbol,
@@ -257,6 +263,7 @@ static void scan(void);
 static int sendevent(Client* c, Atom proto);
 static void sendmon(Client* c, Monitor* m);
 static void setclientstate(Client* c, long state);
+static void setclienttagprop(Client* c);
 static void setfocus(Client* c);
 static void setfullscreen(Client* c, int fullscreen);
 static void setlayout(const Arg* arg);
@@ -425,6 +432,7 @@ int applysizehints(Client* c, int* x, int* y, int* w, int* h, int interact)
         if (*y + *h + 2 * c->bw <= m->wy)
             *y = m->wy;
     }
+
     if (*h < bh)
         *h = bh;
     if (*w < bh)
@@ -571,12 +579,12 @@ void buttonpress(XEvent* e)
         focus(NULL);
     }
     if (ev->window == selmon->barwin) {
-        unsigned int occ = 0;
         i = x = 0;
+        unsigned int occ = 0;
         for (c = m->clients; c; c = c->next)
             occ |= c->tags;
         do {
-            /* do not reserve space for vacant tags */
+            /* Do not reserve space for vacant tags */
             if (!(occ & 1 << i || m->tagset[m->seltags] & 1 << i))
                 continue;
             x += TEXTW(tags[i]);
@@ -1023,9 +1031,8 @@ void focusstack(const Arg* arg)
     if (i < 0 || !selmon->sel || (selmon->sel->isfullscreen && lockfullscreen))
         return;
 
-    for (p = NULL, c = selmon->clients; c && (i || !ISVISIBLE(c));
-         i -= ISVISIBLE(c) ? 1 : 0, p = c, c = c->next)
-        ;
+    for(p = NULL, c = selmon->clients; c && (i || !ISVISIBLE(c));
+    	    i -= ISVISIBLE(c) ? 1 : 0, p = c, c = c->next);
     focus(c ? c : p);
     restack(selmon);
 }
@@ -1244,6 +1251,24 @@ void manage(Window w, XWindowAttributes* wa)
     updatewindowtype(c);
     updatesizehints(c);
     updatewmhints(c);
+    {
+        int format;
+        unsigned long *data, n, extra;
+        Monitor *m;
+        Atom atom;
+        if (XGetWindowProperty(dpy, c->win, netatom[NetClientInfo], 0L, 2L, False, XA_CARDINAL, &atom, &format, &n, &extra, (unsigned char **)&data) == Success && n == 2) {
+            c->tags = *data;
+            for (m = mons; m; m = m->next) {
+                if (m->num == *(data + 1)) {
+                    c->mon = m;
+                    break;
+                }
+            }
+        }
+        if (n > 0)
+            XFree(data);
+    }
+    setclienttagprop(c);
     c->x = c->mon->mx + (c->mon->mw - WIDTH(c)) / 2;
     c->y = c->mon->my + (c->mon->mh - HEIGHT(c)) / 2;
     XSelectInput(dpy, w,
@@ -1265,10 +1290,10 @@ void manage(Window w, XWindowAttributes* wa)
     if (c->mon == selmon)
         unfocus(selmon->sel, 0);
     c->mon->sel = c;
-    arrange(c->mon);
     XMapWindow(dpy, c->win);
     if (term)
         swallow(term, c);
+    arrange(c->mon);
     focus(NULL);
 }
 
@@ -1404,9 +1429,9 @@ void pushstack(const Arg* arg)
     int i = stackpos(arg);
     Client *sel = selmon->sel, *c, *p;
 
-    if (i < 0 || !sel)
+    if (i < 0 || !sel) {
         return;
-    else if (i == 0) {
+    } else if (i == 0) {
         detach(sel);
         attach(sel);
     } else {
@@ -1647,6 +1672,7 @@ void sendmon(Client* c, Monitor* m)
     c->tags = m->tagset[m->seltags]; /* assign tags of target monitor */
     attach(c);
     attachstack(c);
+    setclienttagprop(c);
     focus(NULL);
     arrange(NULL);
 }
@@ -1753,8 +1779,9 @@ int stackpos(const Arg* arg)
              i += ISVISIBLE(c) ? 1 : 0, c = c->next)
             ;
         return MAX(i + arg->i, 0);
-    } else
+    } else {
         return arg->i;
+    }
 }
 
 void setlayout(const Arg* arg)
@@ -1831,6 +1858,7 @@ void setup(void)
     netatom[NetWMWindowType] = XInternAtom(dpy, "_NET_WM_WINDOW_TYPE", False);
     netatom[NetWMWindowTypeDialog] = XInternAtom(dpy, "_NET_WM_WINDOW_TYPE_DIALOG", False);
     netatom[NetClientList] = XInternAtom(dpy, "_NET_CLIENT_LIST", False);
+    netatom[NetClientInfo] = XInternAtom(dpy, "_NET_CLIENT_INFO", False);
     /* init cursors */
     cursor[CurNormal] = drw_cur_create(drw, XC_left_ptr);
     cursor[CurResize] = drw_cur_create(drw, XC_sizing);
@@ -1854,6 +1882,7 @@ void setup(void)
     XChangeProperty(dpy, root, netatom[NetSupported], XA_ATOM, 32,
         PropModeReplace, (unsigned char*)netatom, NetLast);
     XDeleteProperty(dpy, root, netatom[NetClientList]);
+    XDeleteProperty(dpy, root, netatom[NetClientInfo]);
     /* select events */
     wa.cursor = cursor[CurNormal]->cursor;
     wa.event_mask = SubstructureRedirectMask | SubstructureNotifyMask | ButtonPressMask | PointerMotionMask | EnterWindowMask | LeaveWindowMask | StructureNotifyMask | PropertyChangeMask;
@@ -1946,10 +1975,18 @@ void spawn(const Arg* arg)
     }
 }
 
+void setclienttagprop(Client* c) {
+    long data[] = { (long)c->tags, (long)c->mon->num };
+    XChangeProperty(dpy, c->win, netatom[NetClientInfo], XA_CARDINAL, 32, PropModeReplace, (unsigned char*) data, 2);
+}
+
 void tag(const Arg* arg)
 {
+    Client* c;
     if (selmon->sel && arg->ui & TAGMASK) {
+        c = selmon->sel;
         selmon->sel->tags = arg->ui & TAGMASK;
+        setclienttagprop(c);
         focus(NULL);
         arrange(selmon);
     }
@@ -2037,6 +2074,7 @@ void toggletag(const Arg* arg)
     newtags = selmon->sel->tags ^ (arg->ui & TAGMASK);
     if (newtags) {
         selmon->sel->tags = newtags;
+        setclienttagprop(selmon->sel);
         focus(NULL);
         arrange(selmon);
     }
