@@ -68,8 +68,8 @@ static const Rule rules[] = {
      */
     /* class               instance    title           tags mask      isfloating  isterminal  noswallow  monitor */
     { "discord",           NULL,       NULL,           1U << 1,       0,          0,          0,         -1 },
-    { "VSCodium",          NULL,       NULL,           1U << 2,       0,          0,          0,         -1 },
-    { "jetbrains-idea-ce", NULL,       NULL,           1U << 3,       0,          0,          0,         -1 },
+    /* { "VSCodium",          NULL,       NULL,           1U << 2,       0,          0,          0,         -1 }, */
+    /* { "jetbrains-idea-ce", NULL,       NULL,           1U << 3,       0,          0,          0,         -1 }, */
     { "Gimp",              NULL,       NULL,           1U << 4,       0,          0,          0,         -1 },
     { "qBittorrent",       NULL,       NULL,           1U << 5,       0,          0,          0,         -1 },
     { TERMCLASS,           NULL,       NULL,           0,             0,          1,          0,         -1 },
