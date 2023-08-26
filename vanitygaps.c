@@ -21,15 +21,13 @@ static void spiral(Monitor* m);
 static void tile(Monitor* m);
 
 /* Internals */
-static void getgaps(Monitor* m, int* oh, int* ov, int* ih, int* iv,
-    unsigned int* nc);
+static void getgaps(Monitor* m, int* oh, int* ov, int* ih, int* iv, unsigned int* nc);
 static void setgaps(int oh, int ov, int ih, int iv);
 
 /* Settings */
 static int enablegaps = 1;
 
-static void setgaps(int oh, int ov, int ih, int iv)
-{
+static void setgaps(int oh, int ov, int ih, int iv) {
     if (oh < 0)
         oh = 0;
     if (ov < 0)
@@ -46,101 +44,94 @@ static void setgaps(int oh, int ov, int ih, int iv)
     arrange(selmon);
 }
 
-static void togglegaps(const Arg* arg)
-{
+static void togglegaps(const Arg* arg) {
     (void)arg;
     enablegaps = !enablegaps;
     arrange(NULL);
 }
 
-static void togglesmartgaps(const Arg* arg)
-{
+static void togglesmartgaps(const Arg* arg) {
     (void)arg;
     smartgaps = !smartgaps;
     arrange(NULL);
 }
 
-static void defaultgaps(const Arg* arg)
-{
+static void defaultgaps(const Arg* arg) {
     (void)arg;
     setgaps(gappoh, gappov, gappih, gappiv);
 }
 
-static void incrgaps(const Arg* arg)
-{
-    setgaps(selmon->gappoh + arg->i, selmon->gappov + arg->i,
-        selmon->gappih + arg->i, selmon->gappiv + arg->i);
+static void incrgaps(const Arg* arg) {
+    setgaps(selmon->gappoh + arg->i, selmon->gappov + arg->i, selmon->gappih + arg->i, selmon->gappiv + arg->i);
 }
 
-/* static void */
-/* incrigaps(const Arg *arg) */
-/* { */
-/* 	setgaps( */
-/* 		selmon->gappoh, */
-/* 		selmon->gappov, */
-/* 		selmon->gappih + arg->i, */
-/* 		selmon->gappiv + arg->i */
-/* 	); */
-/* } */
-
-/* static void */
-/* incrogaps(const Arg *arg) */
-/* { */
-/* 	setgaps( */
-/* 		selmon->gappoh + arg->i, */
-/* 		selmon->gappov + arg->i, */
-/* 		selmon->gappih, */
-/* 		selmon->gappiv */
-/* 	); */
-/* } */
-
-/* static void */
-/* incrohgaps(const Arg *arg) */
-/* { */
-/* 	setgaps( */
-/* 		selmon->gappoh + arg->i, */
-/* 		selmon->gappov, */
-/* 		selmon->gappih, */
-/* 		selmon->gappiv */
-/* 	); */
-/* } */
-
-/* static void */
-/* incrovgaps(const Arg *arg) */
-/* { */
-/* 	setgaps( */
-/* 		selmon->gappoh, */
-/* 		selmon->gappov + arg->i, */
-/* 		selmon->gappih, */
-/* 		selmon->gappiv */
-/* 	); */
-/* } */
-
-/* static void */
-/* incrihgaps(const Arg *arg) */
-/* { */
-/* 	setgaps( */
-/* 		selmon->gappoh, */
-/* 		selmon->gappov, */
-/* 		selmon->gappih + arg->i, */
-/* 		selmon->gappiv */
-/* 	); */
-/* } */
-
-/* static void */
-/* incrivgaps(const Arg *arg) */
-/* { */
-/* 	setgaps( */
-/* 		selmon->gappoh, */
-/* 		selmon->gappov, */
-/* 		selmon->gappih, */
-/* 		selmon->gappiv + arg->i */
-/* 	); */
-/* } */
-
-static void getgaps(Monitor* m, int* oh, int* ov, int* ih, int* iv,
-    unsigned int* nc)
+/* static void
+incrigaps(const Arg *arg)
 {
+	setgaps(
+		selmon->gappoh,
+		selmon->gappov,
+		selmon->gappih + arg->i,
+		selmon->gappiv + arg->i
+	);
+} */
+
+/* static void
+incrogaps(const Arg *arg)
+{
+	setgaps(
+		selmon->gappoh + arg->i,
+		selmon->gappov + arg->i,
+		selmon->gappih,
+		selmon->gappiv
+	);
+} */
+
+/* static void
+incrohgaps(const Arg *arg)
+{
+	setgaps(
+		selmon->gappoh + arg->i,
+		selmon->gappov,
+		selmon->gappih,
+		selmon->gappiv
+	);
+} */
+
+/* static void
+incrovgaps(const Arg *arg)
+{
+	setgaps(
+		selmon->gappoh,
+		selmon->gappov + arg->i,
+		selmon->gappih,
+		selmon->gappiv
+	);
+} */
+
+/* static void
+incrihgaps(const Arg *arg)
+{
+	setgaps(
+		selmon->gappoh,
+		selmon->gappov,
+		selmon->gappih + arg->i,
+		selmon->gappiv
+	);
+} */
+
+/* static void
+incrivgaps(const Arg *arg)
+{
+	setgaps(
+		selmon->gappoh,
+		selmon->gappov,
+		selmon->gappih,
+		selmon->gappiv + arg->i
+	);
+} */
+
+static void getgaps(Monitor* m, int* oh, int* ov, int* ih, int* iv, unsigned int* nc) {
     unsigned int n, oe, ie;
     oe = ie = enablegaps;
     Client* c;
@@ -148,19 +139,17 @@ static void getgaps(Monitor* m, int* oh, int* ov, int* ih, int* iv,
     for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++)
         ;
     if (smartgaps && n == 1) {
-        oe = 0; // outer gaps disabled when only one client
+        oe = 0; /* outer gaps disabled when only one client */
     }
 
-    *oh = m->gappoh * oe; // outer horizontal gap
-    *ov = m->gappov * oe; // outer vertical gap
-    *ih = m->gappih * ie; // inner horizontal gap
-    *iv = m->gappiv * ie; // inner vertical gap
-    *nc = n; // number of clients
+    *oh = m->gappoh * oe; /* outer horizontal gap */
+    *ov = m->gappov * oe; /* outer vertical gap */
+    *ih = m->gappih * ie; /* inner horizontal gap */
+    *iv = m->gappiv * ie; /* inner vertical gap */
+    *nc = n; /* number of clients */
 }
 
-static void getfacts(Monitor* m, int msize, int ssize, float* mf, float* sf, int* mr,
-    int* sr)
-{
+static void getfacts(Monitor* m, int msize, int ssize, float* mf, float* sf, int* mr, int* sr) {
     unsigned int n;
     float mfacts, sfacts;
     int mtotal = 0, stotal = 0;
@@ -177,11 +166,11 @@ static void getfacts(Monitor* m, int msize, int ssize, float* mf, float* sf, int
         else
             stotal += ssize / sfacts;
 
-    *mf = mfacts; // total factor of master area
-    *sf = sfacts; // total factor of stack area
-    *mr = msize - mtotal; // the remainder (rest) of pixels after an even
-                          // master split
-    *sr = ssize - stotal; // the remainder (rest) of pixels after an even stack split
+    *mf = mfacts; /* total factor of master area */
+    *sf = sfacts; /* total factor of stack area */
+    *mr = msize - mtotal; /* the remainder (rest) of pixels after an even */
+                          /* master split */
+    *sr = ssize - stotal; /* the remainder (rest) of pixels after an even stack split */
 }
 
 /***
@@ -193,8 +182,7 @@ static void getfacts(Monitor* m, int msize, int ssize, float* mf, float* sf, int
  * https://dwm.suckless.org/patches/bottomstack/
  */
 
-static void bstack(Monitor* m)
-{
+static void bstack(Monitor* m) {
     unsigned int i, n;
     int mx = 0, my = 0, mh = 0, mw = 0;
     int sx = 0, sy = 0, sh = 0, sw = 0;
@@ -242,8 +230,7 @@ static void bstack(Monitor* m)
  * https://dwm.suckless.org/patches/centeredmaster/
  */
 
-static void centeredmaster(Monitor* m)
-{
+static void centeredmaster(Monitor* m) {
     unsigned int i, n;
     int mx = 0, my = 0, mh = 0, mw = 0;
     int lx = 0, ly = 0, lw = 0, lh = 0;
@@ -291,9 +278,9 @@ static void centeredmaster(Monitor* m)
         if (!m->nmaster || n < m->nmaster)
             mfacts += 1;
         else if ((n - m->nmaster) % 2)
-            lfacts += 1; // total factor of left hand stack area
+            lfacts += 1; /* total factor of left hand stack area */
         else
-            rfacts += 1; // total factor of right hand stack area
+            rfacts += 1; /* total factor of right hand stack area */
     }
 
     for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++)
@@ -332,8 +319,7 @@ static void centeredmaster(Monitor* m)
     }
 }
 
-static void centeredfloatingmaster(Monitor* m)
-{
+static void centeredfloatingmaster(Monitor* m) {
     unsigned int i, n;
     float mfacts, sfacts;
     int mrest, srest;
@@ -341,7 +327,7 @@ static void centeredfloatingmaster(Monitor* m)
     int sx = 0, sy = 0, sh = 0, sw = 0;
     Client* c;
 
-    float mivf = 1.0; // master inner vertical gap factor
+    float mivf = 1.0; /* master inner vertical gap factor */
     int oh, ov, ih, iv;
     getgaps(m, &oh, &ov, &ih, &iv, &n);
 
@@ -395,8 +381,7 @@ static void centeredfloatingmaster(Monitor* m)
  * https://dwm.suckless.org/patches/deck/
  */
 
-static void deck(Monitor* m)
-{
+static void deck(Monitor* m) {
     unsigned int i, n;
     int mx = 0, my = 0, mh = 0, mw = 0;
     int sx = 0, sy = 0, sh = 0, sw = 0;
@@ -442,8 +427,7 @@ static void deck(Monitor* m)
  * https://dwm.suckless.org/patches/fibonacci/
  */
 
-static void fibonacci(Monitor* m, int s)
-{
+static void fibonacci(Monitor* m, int s) {
     unsigned int i, n;
     int nx, ny, nw, nh;
     int oh, ov, ih, iv;
@@ -477,11 +461,11 @@ static void fibonacci(Monitor* m, int s)
                     ny += nh + ih;
                 else
                     ny -= nh + ih;
-            } else if ((i % 4) == 1)
+            } else if ((i % 4) == 1) {
                 nx += nw + iv;
-            else if ((i % 4) == 2)
+            } else if ((i % 4) == 2) {
                 ny += nh + ih;
-            else if ((i % 4) == 3) {
+            } else if ((i % 4) == 3) {
                 if (s)
                     nx += nw + iv;
                 else
@@ -491,8 +475,9 @@ static void fibonacci(Monitor* m, int s)
                 if (n != 1)
                     nw = (m->ww - 2 * ov - iv) * m->mfact;
                 ny = m->wy + oh;
-            } else if (i == 1)
+            } else if (i == 1) {
                 nw = m->ww - nw - iv - 2 * ov;
+            }
             i++;
         }
 
@@ -500,16 +485,19 @@ static void fibonacci(Monitor* m, int s)
     }
 }
 
-static void dwindle(Monitor* m) { fibonacci(m, 1); }
+static void dwindle(Monitor* m) {
+    fibonacci(m, 1);
+}
 
-static void spiral(Monitor* m) { fibonacci(m, 0); }
+static void spiral(Monitor* m) {
+    fibonacci(m, 0);
+}
 
 /*
  * Default tile layout + gaps
  */
 
-static void tile(Monitor* m)
-{
+static void tile(Monitor* m) {
     unsigned int i, n;
     int mx = 0, my = 0, mh = 0, mw = 0;
     int sx = 0, sy = 0, sh = 0, sw = 0;

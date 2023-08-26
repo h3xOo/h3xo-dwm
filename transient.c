@@ -5,8 +5,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-int main(void)
-{
+int main(void) {
     Display* d;
     Window r, f, t = None;
     XSizeHints h;

@@ -4,8 +4,7 @@
  *          or left (negative value)
  */
 
-static void shiftview(const Arg* arg)
-{
+static void shiftview(const Arg* arg) {
     Arg shifted;
     Client* c;
     unsigned int tagmask = 0;
@@ -29,8 +28,7 @@ static void shiftview(const Arg* arg)
     view(&shifted);
 }
 
-static void shifttag(const Arg* arg)
-{
+static void shifttag(const Arg* arg) {
     Arg a;
     Client* c;
     unsigned visible = 0;
@@ -39,13 +37,13 @@ static void shifttag(const Arg* arg)
     int nextseltags, curseltags = selmon->tagset[selmon->seltags];
 
     do {
-        if (i > 0) // left circular shift
+        if (i > 0) /* left circular shift */
             nextseltags = (curseltags << i) | (curseltags >> (LENGTH(tags) - i));
 
-        else // right circular shift
+        else /* right circular shift */
             nextseltags = (curseltags >> -i) | (curseltags << (LENGTH(tags) + i));
 
-        // Check if tag is visible
+        /* Check if tag is visible */
         for (c = selmon->clients; c && !visible; c = c->next)
             if (nextseltags & c->tags) {
                 visible = 1;
