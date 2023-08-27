@@ -584,9 +584,9 @@ void buttonpress(XEvent* e) {
         if (i < LENGTH(tags)) {
             click = ClkTagBar;
             arg.ui = 1 << i;
-        } else if (ev->x < x + TEXTW(selmon->ltsymbol))
+        } else if (ev->x < x + TEXTW(selmon->ltsymbol)) {
             click = ClkLtSymbol;
-        else if (ev->x > (x = selmon->ww - (int)TEXTW(stext) + lrpad)) {
+        } else if (ev->x > (x = selmon->ww - (int)TEXTW(stext) + lrpad)) {
             click = ClkStatusText;
 
             char* text = rawstext;
@@ -606,8 +606,9 @@ void buttonpress(XEvent* e) {
                     dwmblockssig = ch;
                 }
             }
-        } else
+        } else {
             click = ClkWinTitle;
+        }
     } else if ((c = wintoclient(ev->window))) {
         focus(c);
         restack(selmon);
@@ -901,7 +902,8 @@ void drawbar(Monitor* m) {
     if ((w = m->ww - tw - x) > bh) {
         if (m->sel) {
             drw_setscheme(drw, scheme[m == selmon ? SchemeSel : SchemeNorm]);
-            drw_text(drw, x, 0, w, bh, lrpad / 2, m->sel->name, 0);
+            /* changing m->sel->name to "" would disable displaying title */
+            /* drw_text(drw, x, 0, w, bh, lrpad / 2, m->sel->name, 0); */
             if (m->sel->isfloating)
                 drw_rect(drw, x + boxs, boxs, boxw, boxw, m->sel->isfixed, 0);
         } else {
