@@ -35,7 +35,7 @@ static const char selfgcolor[] = "#eeeeee";
 /* Master border color */
 static const char selbordercolor[] = "#282C34";
 /* #998579 - brown, #223249 - kanagawa */
-static const char selbgcolor[] = "#998579";
+static const char selbgcolor[] = "#223249";
 static const char* colors[][3] = {
     /*               fg           bg           border   */
     [SchemeNorm] = { normfgcolor, normbgcolor, normbordercolor },
