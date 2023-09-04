@@ -24,7 +24,7 @@ static const int showbar            = 1; /* 0 means no bar */
 static const int topbar             = 1; /* 0 means bottom bar */
 
 static const char* fonts[] = {
-    "SauceCodePro Nerd Font:size=12",
+    "JetBrainsMono Nerd Font:size=12",
     "JoyPixels:pixelsize=12:antialias=true:autohint=true"
 };
 
