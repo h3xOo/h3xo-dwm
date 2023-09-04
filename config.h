@@ -267,9 +267,9 @@ static const Button buttons[] = {
     { ClkStatusText,    0,          Button5, sigdwmblocks, { .i = 5 } },
     { ClkStatusText,    ShiftMask,  Button1, sigdwmblocks, { .i = 6 } },
 #endif
-    { ClkClientWin, MODKEY, Button1, movemouse, { 0 } },
+    { ClkClientWin, MODKEY, Button1, resizemouse, { 0 } },
     { ClkClientWin, MODKEY, Button2, defaultgaps, { 0 } },
-    { ClkClientWin, MODKEY, Button3, resizemouse, { 0 } },
+    { ClkClientWin, MODKEY, Button3, movemouse, { 0 } },
     { ClkClientWin, MODKEY, Button4, incrgaps, { .i = +1 } },
     { ClkClientWin, MODKEY, Button5, incrgaps, { .i = -1 } },
     { ClkTagBar,    0,      Button1, view, { 0 } },
