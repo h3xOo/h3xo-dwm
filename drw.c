@@ -255,7 +255,7 @@ int drw_text(Drw* drw, int x, int y, unsigned int w, unsigned int h, unsigned in
 
     usedfont = drw->fonts;
     if (!ellipsis_width && render)
-        ellipsis_width = drw_fontset_getwidth(drw, "...");
+        ellipsis_width = drw_fontset_getwidth(drw, "…");
     while (1) {
         ew = ellipsis_len = utf8strlen = 0;
         utf8str = text;
@@ -314,7 +314,7 @@ int drw_text(Drw* drw, int x, int y, unsigned int w, unsigned int h, unsigned in
         }
 
         if (render && overflow)
-            drw_text(drw, ellipsis_x, y, ellipsis_w, h, 0, "...", invert);
+            drw_text(drw, ellipsis_x, y, ellipsis_w, h, 0, "…", invert);
 
         if (!*text || overflow) {
             break;
