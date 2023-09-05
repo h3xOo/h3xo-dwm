@@ -1570,7 +1570,6 @@ void runAutostart(void) {
     /* https://wiki.archlinux.org/title/Display_Power_Management_Signaling#Modify_DPMS_and_screensaver_settings_with_a_command */
     system("xset dpms &");
     system("xset dpms 750 750 750 &");
-    system("disown");
 }
 
 void scan(void) {
