@@ -59,24 +59,25 @@ static const Sp scratchpads[] = {
 };
 
 /* tagging (tag names in bar) */
-static const char* tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 
 static const Rule rules[] = {
     /* xprop(1):
      *	WM_CLASS(STRING) = instance, class
      *	WM_NAME(STRING) = title
      */
-    /* class               instance    title           tags mask      isfloating  isterminal  noswallow  monitor */
-    { "discord",           NULL,       NULL,           1U << 1,       0,          0,          0,         -1 },
-    /* { "VSCodium",          NULL,       NULL,           1U << 2,       0,          0,          0,         -1 }, */
-    /* { "jetbrains-idea-ce", NULL,       NULL,           1U << 3,       0,          0,          0,         -1 }, */
-    { "Gimp",              NULL,       NULL,           1U << 4,       0,          0,          0,         -1 },
-    { "qBittorrent",       NULL,       NULL,           1U << 5,       0,          0,          0,         -1 },
-    { TERMCLASS,           NULL,       NULL,           0,             0,          1,          0,         -1 },
-    { NULL,                NULL,       "Event Tester", 0,             0,          0,          1,         -1 },
-    { NULL,                "bg",       NULL,           0,             0,          1,          1 << 7,    -1 },
-    { NULL,                "spterm",   NULL,           SPTAG(0),      1,          1,          0,         -1 },
-    { NULL,                "spcalc",   NULL,           SPTAG(1),      1,          1,          0,         -1 },
+    /* class               instance    title           tags mask      isfloating  isterminal  noswallow  monitor  ignoretransient*/
+    { "discord",           NULL,       NULL,           1U << 1,       0,          0,          0,         -1,      0 },
+    { "VSCodium",          NULL,       NULL,           1U << 2,       0,          0,          0,         -1,      0 },
+    { "jetbrains-idea-ce", NULL,       NULL,           0,             0,          0,          0,         -1,      1 },
+    { "jetbrains-pycharm-ce", NULL,       NULL,        0,             0,          0,          0,         -1,      1 },
+    { "Gimp",              NULL,       NULL,           1U << 4,       0,          0,          0,         -1,      0 },
+    { "qBittorrent",       NULL,       NULL,           1U << 5,       0,          0,          0,         -1,      0 },
+    { TERMCLASS,           NULL,       NULL,           0,             0,          1,          0,         -1,      0 },
+    { NULL,                NULL,       "Event Tester", 0,             0,          0,          1,         -1,      0 },
+    { NULL,                "bg",       NULL,           0,             0,          1,          1 << 7,    -1,      0 },
+    { NULL,                "spterm",   NULL,           SPTAG(0),      1,          1,          0,         -1,      0 },
+    { NULL,                "spcalc",   NULL,           SPTAG(1),      1,          1,          0,         -1,      0 },
 };
 
 /* layout(s) */
