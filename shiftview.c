@@ -4,9 +4,9 @@
  *          or left (negative value)
  */
 
-static void shiftview(const Arg* arg) {
+static void shiftview(Arg const *arg) {
     Arg shifted;
-    Client* c;
+    Client *c;
     unsigned int tagmask = 0;
 
     for (c = selmon->clients; c; c = c->next)
@@ -28,9 +28,9 @@ static void shiftview(const Arg* arg) {
     view(&shifted);
 }
 
-static void shifttag(const Arg* arg) {
+static void shifttag(Arg const *arg) {
     Arg a;
-    Client* c;
+    Client *c;
     unsigned visible = 0;
     int i = arg->i;
     int count = 0;
