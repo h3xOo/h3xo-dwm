@@ -7,34 +7,34 @@
 /* See LICENSE file for copyright and license details. */
 
 typedef struct {
-    Cursor cursor;
+        Cursor cursor;
 } Cur;
 
 typedef struct Fnt {
-    Display *dpy;
-    unsigned int h;
-    XftFont *xfont;
-    FcPattern *pattern;
-    struct Fnt *next;
+        Display *dpy;
+        unsigned int h;
+        XftFont *xfont;
+        FcPattern *pattern;
+        struct Fnt *next;
 } Fnt;
 
 enum {
-    ColFg,
-    ColBg,
-    ColBorder
+        ColFg,
+        ColBg,
+        ColBorder
 }; /* Clr scheme index */
 
 typedef XftColor Clr;
 
 typedef struct {
-    unsigned int w, h;
-    Display *dpy;
-    int screen;
-    Window root;
-    Drawable drawable;
-    GC gc;
-    Clr *scheme;
-    Fnt *fonts;
+        unsigned int w, h;
+        Display *dpy;
+        int screen;
+        Window root;
+        Drawable drawable;
+        GC gc;
+        Clr *scheme;
+        Fnt *fonts;
 } Drw;
 
 /* Drawable abstraction */
@@ -47,7 +47,8 @@ Fnt *drw_fontset_create(Drw *drw, char const *fonts[], size_t fontcount);
 void drw_fontset_free(Fnt *set);
 unsigned int drw_fontset_getwidth(Drw *drw, char const *text);
 unsigned int drw_fontset_getwidth_clamp(Drw *drw, char const *text, unsigned int n);
-void drw_font_getexts(Fnt *font, char const *text, unsigned int len, unsigned int *w, unsigned int *h);
+void drw_font_getexts(Fnt *font, char const *text, unsigned int len, unsigned int *w,
+                      unsigned int *h);
 
 /* Colorscheme abstraction */
 void drw_clr_create(Drw *drw, Clr *dest, char const *clrname);
@@ -63,7 +64,8 @@ void drw_setscheme(Drw *drw, Clr *scm);
 
 /* Drawing functions */
 void drw_rect(Drw *drw, int x, int y, unsigned int w, unsigned int h, int filled, int invert);
-int drw_text(Drw *drw, int x, int y, unsigned int w, unsigned int h, unsigned int lpad, char const *text, int invert);
+int drw_text(Drw *drw, int x, int y, unsigned int w, unsigned int h, unsigned int lpad,
+             char const *text, int invert);
 
 /* Map functions */
 void drw_map(Drw *drw, Window win, int x, int y, unsigned int w, unsigned int h);
