@@ -30,8 +30,7 @@ int main(void)
 
 		if (t == None) {
 			sleep(5);
-			t = XCreateSimpleWindow(d, r, 50, 50, 100, 100, 0, 0,
-						0);
+			t = XCreateSimpleWindow(d, r, 50, 50, 100, 100, 0, 0, 0);
 			XSetTransientForHint(d, t, f);
 			XStoreName(d, t, "transient");
 			XMapWindow(d, t);
