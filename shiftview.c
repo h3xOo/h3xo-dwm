@@ -17,14 +17,12 @@ static void shiftview(Arg const *arg)
 	shifted.ui = selmon->tagset[selmon->seltags] & ~SPTAGMASK;
 	if (arg->i > 0) /* left circular shift */
 		do {
-			shifted.ui = (shifted.ui << arg->i) |
-				     (shifted.ui >> (LENGTH(tags) - arg->i));
+			shifted.ui = (shifted.ui << arg->i) | (shifted.ui >> (LENGTH(tags) - arg->i));
 			shifted.ui &= ~SPTAGMASK;
 		} while (tagmask && !(shifted.ui & tagmask));
 	else /* right circular shift */
 		do {
-			shifted.ui = (shifted.ui >> (-arg->i) |
-				      shifted.ui << (LENGTH(tags) + arg->i));
+			shifted.ui = (shifted.ui >> (-arg->i) | shifted.ui << (LENGTH(tags) + arg->i));
 			shifted.ui &= ~SPTAGMASK;
 		} while (tagmask && !(shifted.ui & tagmask));
 
@@ -42,12 +40,10 @@ static void shifttag(Arg const *arg)
 
 	do {
 		if (i > 0) /* left circular shift */
-			nextseltags = (curseltags << i) |
-				      (curseltags >> (LENGTH(tags) - i));
+			nextseltags = (curseltags << i) | (curseltags >> (LENGTH(tags) - i));
 
 		else /* right circular shift */
-			nextseltags = (curseltags >> -i) |
-				      (curseltags << (LENGTH(tags) + i));
+			nextseltags = (curseltags >> -i) | (curseltags << (LENGTH(tags) + i));
 
 		/* Check if tag is visible */
 		for (c = selmon->clients; c && !visible; c = c->next)
