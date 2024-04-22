@@ -582,7 +582,7 @@ void buttonpress(XEvent *e)
                 i = x = 0;
                 unsigned int occ = 0;
                 for (c = m->clients; c; c = c->next)
-                        occ |= c->tags;
+                        occ |= c->tags == TAGMASK ? 0 : c->tags;
                 do {
                         /* Do not reserve space for vacant tags */
                         if (!(occ & 1 << i || m->tagset[m->seltags] & 1 << i))
@@ -900,7 +900,7 @@ void drawbar(Monitor *m)
         }
 
         for (c = m->clients; c; c = c->next) {
-                occ |= c->tags == 255 ? 0 : c->tags;
+                occ |= c->tags == TAGMASK ? 0 : c->tags;
                 if (c->isurgent)
                         urg |= c->tags;
         }
