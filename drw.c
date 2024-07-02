@@ -328,7 +328,8 @@ int drw_text(Drw *drw, int x, int y, unsigned int w, unsigned int h, unsigned in
                 if (utf8strlen) {
                         if (render) {
                                 ty = y + (h - usedfont->h) / 2 + usedfont->xfont->ascent;
-                                XftDrawStringUtf8(d, &drw->scheme[invert ? ColBg : ColFg], usedfont->xfont, x, ty, (XftChar8 *)utf8str, utf8strlen);
+                                XftDrawStringUtf8(d, &drw->scheme[invert ? ColBg : ColFg], usedfont->xfont, x, ty, (XftChar8 *)utf8str,
+                                                  utf8strlen);
                         }
                         x += ew;
                         w -= ew;

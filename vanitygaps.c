@@ -310,10 +310,12 @@ static void centeredmaster(Monitor *m)
                 } else {
                         /* stack clients are stacked vertically */
                         if ((i - m->nmaster) % 2) {
-                                resize(c, lx, ly, lw - (2 * c->bw), (lh / lfacts) + ((i - 2 * m->nmaster) < 2 * lrest ? 1 : 0) - (2 * c->bw), 0);
+                                resize(c, lx, ly, lw - (2 * c->bw),
+                                       (lh / lfacts) + ((i - 2 * m->nmaster) < 2 * lrest ? 1 : 0) - (2 * c->bw), 0);
                                 ly += HEIGHT(c) + ih;
                         } else {
-                                resize(c, rx, ry, rw - (2 * c->bw), (rh / rfacts) + ((i - 2 * m->nmaster) < 2 * rrest ? 1 : 0) - (2 * c->bw), 0);
+                                resize(c, rx, ry, rw - (2 * c->bw),
+                                       (rh / rfacts) + ((i - 2 * m->nmaster) < 2 * rrest ? 1 : 0) - (2 * c->bw), 0);
                                 ry += HEIGHT(c) + ih;
                         }
                 }
